@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <script type="text/javascript" src="lib/jquery-1.9.1.js"></script>
+    <link rel="stylesheet" href="lib/angular-ui.css">
+    <link rel="stylesheet" href="lib/grid/ng-grid.css">
+    <script type="text/javascript" src="lib/angular-1.0.7/angular.js"></script>
+    <script type="text/javascript" src="lib/angular-ui.js"></script>
+    <script type="text/javascript" src="lib/codemirror-3.14/lib/codemirror.js"></script>
+    <script type="text/javascript" src="lib/codemirror-3.14/keymap/emacs.js"></script>
+    <link rel="stylesheet" href="lib/codemirror-3.14/lib/codemirror.css">
+    <link rel="stylesheet" href="css/main.css">
+  </head>
+  <body ng-app="neoApp" ng-controller="NeoCtrl">
+    <div class="controls">
+      <a href="" ng-click="commandHistory.stack = []; commandHistory.crnt = 0">Clear</a>
+      <a href="" ng-click="showSettings=!showSettings" ng-init="showSettings=false">Settings</a>
+      <div class="settingsValsDiv" ng-show="showSettings">
+	<input type="text" ng-model="settings.url"/>
+      </div>
+    </div>
+    <div style="clear: both;"></div>
+    <ul class="resultsContainer" auto-scroll>
+      <li style="list-style: none;" ng-repeat="hist in commandHistory.stack" ng-init="show=true">
+	<span ng-click="show=!show" ng-class="{'error':hist.isError}" style="color: lightblue;">{{hist.code}}</span>
+	<div ng-show="show" style="padding-left: 10px;">{{hist.result}}</div>
+      </li>
+    </ul>
+    <div class="editorContainer" ui-event="{'keypress': 'keypress($event, code)'}">
+      <button ng-click="sendCode(code)" title="ctrl + enter">Send</button>
+      <button ng-click="historyPrev()" title="crtl + up arrow">/\</button>
+      <button ng-click="historyNext()" title="ctrl + down arrow">\/</button>
+      <textarea ui-codemirror="editorOptions" ng-model="code"></textarea>
+    </div>
+    <div class="historyGrid" ng-grid="historyGridOpts"></div>
+
+
+    <script type="text/javascript" src="lib/grid/ng-grid-2.0.6.debug.js"></script>
+    <script type="text/javascript" src="lib/ui-codemirror.js"></script>
+    <script type="text/javascript" src="lib/codemirror-3.14/mode/groovy/groovy.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+
+  </body>
+</html>
